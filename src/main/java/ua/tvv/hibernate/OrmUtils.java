@@ -1,17 +1,26 @@
 package ua.tvv.hibernate;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import java.util.function.Supplier;
 
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 /**
  * @author Tradunsky V.V.
  */
-public final class OrmUtils {
-    private OrmUtils() {
+@UtilityClass
+public class OrmUtils {
+
+    public static SessionFactory getFactory(Class<?>... classes) {
+        Configuration configuration = new Configuration()
+                .configure();
+        for (Class<?> clazz : classes) configuration.addAnnotatedClass(clazz);
+        return configuration.buildSessionFactory();
     }
 
     @SneakyThrows
